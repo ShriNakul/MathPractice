@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiplying Integers Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --board:#1E3B32;
+    --board-dark:#152922;
+    --board-line: rgba(245,241,230,0.13);
+    --chalk:#F5F1E6;
+    --chalk-dim: rgba(245,241,230,0.62);
+    --chalk-faint: rgba(245,241,230,0.35);
+    --yellow:#F2C14E;
+    --yellow-dark:#a9832b;
+    --coral:#E8604C;
+    --sky:#7FC8D9;
+    --wood:#8B5E34;
+    --wood-dark:#6b4726;
+    --paper:#FBFAF6;
+    --radius:20px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 15% 8%, rgba(255,255,255,0.05), transparent 40%),
+      radial-gradient(circle at 85% 92%, rgba(255,255,255,0.04), transparent 40%),
+      var(--board-dark);
+    font-family:'Inter',sans-serif;
+    color:var(--chalk);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 16px;
+  }
+  .wrap{width:100%;max-width:640px;}
+  header{text-align:center;margin-bottom:22px;}
+  .eyebrow{
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--sky);margin:0 0 6px;font-weight:600;
+  }
+  h1{
+    font-family:'Patrick Hand',cursive;
+    font-size:clamp(32px,6vw,46px);
+    margin:0 0 6px;
+    color:var(--chalk);
+    line-height:1.05;
+  }
+  .sub{margin:0;color:var(--chalk-dim);font-size:15px;}
+  .board{
+    background:var(--board);
+    border:8px solid var(--wood);
+    border-radius:var(--radius);
+    box-shadow:0 18px 40px rgba(0,0,0,0.35), inset 0 0 60px rgba(0,0,0,0.15);
+    padding:8px;
+    position:relative;
+    background-image:
+      repeating-linear-gradient(0deg, var(--board-line) 0px, var(--board-line) 1px, transparent 1px, transparent 34px),
+      repeating-linear-gradient(90deg, var(--board-line) 0px, var(--board-line) 1px, transparent 1px, transparent 34px);
+  }
+  .board-inner{
+    padding:28px 24px 24px;
+    text-align:center;
+  }
+  .prompt{
+    font-size:14px;
+    color:var(--chalk-dim);
+    margin:0 0 18px;
+  }
+  .equation{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:clamp(24px,5.4vw,36px);
+    letter-spacing:0.02em;
+    color:var(--chalk);
+    text-shadow:0 0 1px rgba(255,255,255,0.25);
+    min-height:52px;
+    display:flex;align-items:center;justify-content:center;
+    flex-wrap:wrap;gap:8px;
+    margin-bottom:22px;
+  }
+  .answer-row{
+    display:flex;align-items:baseline;justify-content:center;
+    gap:10px;flex-wrap:wrap;margin-bottom:16px;
+  }
+  .answer-row label{
+    font-size:14px;color:var(--chalk-dim);
+  }
+  .answer-row input{
+    background:transparent;
+    border:none;
+    border-bottom:2px solid var(--chalk-faint);
+    color:var(--chalk);
+    font-family:'JetBrains Mono',monospace;
+    font-size:22px;
+    font-weight:700;
+    text-align:center;
+    width:110px;
+    padding:6px 4px;
+    outline:none;
+    transition:border-color .15s ease;
+  }
+  .answer-row input:focus{
+    border-bottom-color:var(--yellow);
+  }
+  .feedback{
+    min-height:24px;
+    font-size:14.5px;
+    font-weight:600;
+    margin-bottom:16px;
+  }
+  .feedback-correct{color:var(--yellow);}
+  .feedback-retry{color:var(--sky);}
+  .feedback-reveal{color:var(--coral);}
+  .controls{
+    display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:14.5px;
+    border-radius:999px;
+    padding:11px 22px;
+    cursor:pointer;
+    border:2px solid transparent;
+    transition:transform .1s ease, filter .15s ease;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{
+    background:var(--yellow);
+    color:var(--board-dark);
+  }
+  .btn-primary:hover{filter:brightness(1.06);}
+  .btn-ghost{
+    background:transparent;
+    border-color:var(--chalk-faint);
+    color:var(--chalk-dim);
+  }
+  .btn-ghost:hover{border-color:var(--chalk-dim);color:var(--chalk);}
+  .btn:focus-visible{outline:2px solid var(--sky);outline-offset:2px;}
+  .rail-wrap{margin-top:22px;}
+  .rail{
+    position:relative;
+    height:28px;
+    margin:0 6px 10px;
+  }
+  .rail-track{
+    position:absolute;top:50%;left:0;right:0;height:2px;
+    background:var(--chalk-faint);transform:translateY(-50%);
+  }
+  .rail-track::before,.rail-track::after{
+    content:'';position:absolute;top:-4px;width:2px;height:10px;background:var(--chalk-faint);
+  }
+  .rail-track::before{left:0;}
+  .rail-track::after{right:0;}
+  .rail-token{
+    position:absolute;top:50%;left:0;
+    transform:translate(-50%,-50%);
+    font-size:20px;color:var(--yellow);
+    transition:left .5s cubic-bezier(.34,1.56,.64,1);
+  }
+  .stats{
+    text-align:center;font-size:13px;color:var(--chalk-dim);
+  }
+  .stats strong{color:var(--chalk);font-weight:700;}
+  .dot{margin:0 8px;opacity:.5;}
+  footer{text-align:center;margin-top:20px;font-size:11.5px;color:var(--chalk-faint);}
+  @media (prefers-reduced-motion: reduce){
+    .rail-token{transition:none;}
+    .btn{transition:none;}
+  }
+  @media (max-width:420px){
+    .board-inner{padding:22px 14px 18px;}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <p class="eyebrow">Millar Time Teaching &middot; Numbers</p>
+      <h1>Multiplying Integers</h1>
+      <p class="sub">Unlimited practice — build your streak on the number line.</p>
+    </header>
+    <div class="board">
+      <div class="board-inner">
+        <p class="prompt" id="prompt"></p>
+        <div class="equation" id="equation">Loading&hellip;</div>
+        <form id="answerForm" class="answer-row" autocomplete="off">
+          <label for="answer">Answer</label>
+          <input type="text" id="answer" name="answer" inputmode="numeric" autocomplete="off" required>
+        </form>
+        <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+        <div class="controls">
+          <button type="submit" form="answerForm" class="btn btn-primary" id="checkBtn">Check</button>
+          <button type="button" class="btn btn-ghost" id="skipBtn">New question</button>
+        </div>
+      </div>
+    </div>
+    <div class="rail-wrap">
+      <div class="rail" aria-hidden="true">
+        <div class="rail-track"></div>
+        <div class="rail-token" id="railToken">&#9679;</div>
+      </div>
+      <div class="stats">
+        <span><strong id="streakNum">0</strong> in a row</span>
+        <span class="dot">&middot;</span>
+        <span><strong id="bestNum">0</strong> best streak</span>
+        <span class="dot">&middot;</span>
+        <span><strong id="totalNum">0</strong> solved</span>
+      </div>
+    </div>
+    <footer>Keep going &mdash; every correct answer moves the counter along the line.</footer>
+  </div>
+<script>
+function ri(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+function nz(min, max){ var v = 0; while (v === 0) v = ri(min, max); return v; }
+function fmt(n){ return n < 0 ? '(' + n + ')' : '' + n; }
+
+window.PRACTICE = {
+  prompt: 'Multiply the integers.',
+  generate: function(){
+    var threeFactor = Math.random() < 0.22;
+    if (threeFactor) {
+      var a = nz(-9, 9), b = nz(-9, 9), c = nz(-9, 9);
+      var answer = a * b * c;
+      var equationHTML = fmt(a) + ' \u00d7 ' + fmt(b) + ' \u00d7 ' + fmt(c);
+      return {
+        equationHTML: equationHTML,
+        check: function(inputs){
+          var v = parseInt(inputs.answer, 10);
+          return !isNaN(v) && v === answer;
+        },
+        explain: fmt(a) + ' \u00d7 ' + fmt(b) + ' \u00d7 ' + fmt(c) + ' = ' + answer + '.'
+      };
+    } else {
+      var a2 = nz(-12, 12), b2 = nz(-12, 12);
+      var answer2 = a2 * b2;
+      var equationHTML2 = fmt(a2) + ' \u00d7 ' + fmt(b2);
+      return {
+        equationHTML: equationHTML2,
+        check: function(inputs){
+          var v = parseInt(inputs.answer, 10);
+          return !isNaN(v) && v === answer2;
+        },
+        explain: fmt(a2) + ' \u00d7 ' + fmt(b2) + ' = ' + answer2 + '.'
+      };
+    }
+  }
+};
+
+
+(function(){
+  var P = window.PRACTICE;
+  var eqEl = document.getElementById('equation');
+  var promptEl = document.getElementById('prompt');
+  var feedbackEl = document.getElementById('feedback');
+  var form = document.getElementById('answerForm');
+  var skipBtn = document.getElementById('skipBtn');
+  var railToken = document.getElementById('railToken');
+  var streakNum = document.getElementById('streakNum');
+  var bestNum = document.getElementById('bestNum');
+  var totalNum = document.getElementById('totalNum');
+
+  var current = null, attempts = 0, streak = 0, best = 0, total = 0;
+  var correctMsgs = ['Nice work!', 'Correct!', 'Great job!', 'You got it!', 'Sharp!'];
+
+  promptEl.textContent = P.prompt;
+
+  function focusFirstInput(){
+    var first = form.querySelector('input');
+    if (first) first.focus();
+  }
+
+  function newProblem(){
+    current = P.generate();
+    attempts = 0;
+    eqEl.innerHTML = current.equationHTML;
+    feedbackEl.textContent = '';
+    feedbackEl.className = 'feedback';
+    form.reset();
+    focusFirstInput();
+  }
+
+  function updateRail(){
+    streakNum.textContent = streak;
+    bestNum.textContent = best;
+    totalNum.textContent = total;
+    var pct = Math.min(streak, 10) / 10 * 100;
+    railToken.style.left = pct + '%';
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var inputs = {};
+    form.querySelectorAll('input').forEach(function(inp){ inputs[inp.name] = inp.value.trim(); });
+    var ok = current.check(inputs);
+    attempts++;
+    if (ok) {
+      streak++; total++;
+      if (streak > best) best = streak;
+      feedbackEl.textContent = correctMsgs[Math.floor(Math.random()*correctMsgs.length)];
+      feedbackEl.className = 'feedback feedback-correct';
+      updateRail();
+      setTimeout(newProblem, 850);
+    } else {
+      if (attempts >= 2) {
+        feedbackEl.innerHTML = 'Not quite. ' + current.explain;
+        feedbackEl.className = 'feedback feedback-reveal';
+        streak = 0;
+        updateRail();
+        setTimeout(newProblem, 3200);
+      } else {
+        feedbackEl.textContent = 'Not quite \u2014 check your signs and try again.';
+        feedbackEl.className = 'feedback feedback-retry';
+      }
+    }
+  });
+
+  skipBtn.addEventListener('click', function(){
+    streak = 0;
+    updateRail();
+    newProblem();
+  });
+
+  updateRail();
+  newProblem();
+})();
+</script>
+</body>
+</html>
