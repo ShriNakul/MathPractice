@@ -481,7 +481,7 @@ export default function OrderOfOperations() {
       >
         <div className="drawer-panel" onClick={(e) => e.stopPropagation()}>
           <div className="drawer-header">
-            <h2>Preferences</h2>
+            <h2>Settings</h2>
             <button
               className="drawer-close-btn"
               onClick={() => setIsPanelOpen(false)}
@@ -663,15 +663,18 @@ export default function OrderOfOperations() {
                 paddingTop: "16px",
               }}
             >
-              <label className="setting-label" style={{ color: "#fbbf24" }}>
+              {/* <label className="setting-label" style={{ color: "#fbbf24" }}>
                 Developer Mode
-              </label>
-              <button
+              </label> */}
+              {/* <button
                 className={`toggle-switch ${devMode ? "on" : ""}`}
                 onClick={() => setDevMode(!devMode)}
               >
                 {devMode ? "ON" : "OFF"}
-              </button>
+              </button> 
+              
+              
+              Turn off dev mode*/}
             </div>
           </div>
         </div>
@@ -873,10 +876,6 @@ export default function OrderOfOperations() {
           </span>
         </div>
       </div>
-
-      <footer>
-        Keep going — every correct answer moves the counter along the line.
-      </footer>
     </div>
   );
 }
