@@ -1,1 +1,1 @@
-Fork + Revamp of Mrs. Abshoff's Coding practice (only includes order of operations for now)
+Fork + Revamp of Mrs. Abshoff's math practice (only includes order of operations for now)
